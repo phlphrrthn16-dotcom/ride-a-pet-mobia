@@ -10,50 +10,76 @@ local HttpService = game:GetService("HttpService")
 local LocalPlayer = Players.LocalPlayer
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "DoryHubMobileProFixedV2"
+ScreenGui.Name = "DoryHubMobileProFixedV3"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = CoreGui
 
-local ImageUrl = "https://i.imgur.com/3YQ5X48.png"
-local DiscordUrl = "https://i.imgur.com/Z4X9Q12.png"
+local ImageAssetId = "dory_custom_logo_v3.png"
+local ImageUrl = "https://media.discordapp.net/attachments/1551943241971273778/1551943331385184296/1790081713456.jpg?ex=6ab9155b&is=6ab7c3db&hm=0eb79463672a7e73fe233f65111f69f7ff92dbd4fd28f7ba03aadfa336fbe9ea&=&format=webp&width=974&height=1024"
+
+local function GetImageAsset(url, fileId)
+    if writefile and isfile and not isfile(fileId) then
+        pcall(function()
+            writefile(fileId, game:HttpGet(url))
+        end)
+    end
+    if getcustomasset and isfile and isfile(fileId) then
+        return getcustomasset(fileId)
+    end
+    return url
+end
+
+local FinalImageAsset = GetImageAsset(ImageUrl, ImageAssetId)
 
 local LoadingFrame = Instance.new("Frame")
 LoadingFrame.Name = "LoadingFrame"
 LoadingFrame.Size = UDim2.new(1, 0, 1, 0)
-LoadingFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 12)
+LoadingFrame.BackgroundTransparency = 1
 LoadingFrame.BorderSizePixel = 0
 LoadingFrame.ZIndex = 100
 LoadingFrame.Parent = ScreenGui
 
+local LoadingLogo = Instance.new("ImageLabel")
+LoadingLogo.Name = "LoadingLogo"
+LoadingLogo.Size = UDim2.new(0, 140, 0, 140)
+LoadingLogo.Position = UDim2.new(0.5, -70, 0.4, -90)
+LoadingLogo.BackgroundTransparency = 1
+LoadingLogo.BorderSizePixel = 0
+LoadingLogo.Image = FinalImageAsset
+LoadingLogo.ScaleType = Enum.ScaleType.Fit
+LoadingLogo.ImageTransparency = 1
+LoadingLogo.ZIndex = 101
+LoadingLogo.Parent = LoadingFrame
+Instance.new("UICorner", LoadingLogo).CornerRadius = UDim.new(0, 20)
+
 local LoadingText = Instance.new("TextLabel")
 LoadingText.Name = "LoadingText"
-LoadingText.Size = UDim2.new(0, 300, 0, 40)
-LoadingText.Position = UDim2.new(0.5, -150, 0.45, -20)
+LoadingText.Size = UDim2.new(0, 250, 0, 30)
+LoadingText.Position = UDim2.new(0.5, -125, 0.4, 65)
 LoadingText.BackgroundTransparency = 1
 LoadingText.BorderSizePixel = 0
-LoadingText.Text = "DORY HUB MOBILE PRO"
+LoadingText.Text = "LOADING MOBILE DORY HUB..."
 LoadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
-LoadingText.TextSize = 12
+LoadingText.TextSize = 10
 LoadingText.Font = Enum.Font.Arcade
+LoadingText.TextTransparency = 1
 LoadingText.ZIndex = 101
 LoadingText.Parent = LoadingFrame
 
-local MinimisedBox = Instance.new("TextButton")
+local MinimisedBox = Instance.new("ImageButton")
 MinimisedBox.Name = "MinimisedBox"
-MinimisedBox.Size = UDim2.new(0, 100, 0, 40)
-MinimisedBox.Position = UDim2.new(0.5, -50, 0.02, 0)
-MinimisedBox.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+MinimisedBox.Size = UDim2.new(0, 50, 0, 50)
+MinimisedBox.Position = UDim2.new(0.5, -25, 0.02, 0)
+MinimisedBox.BackgroundTransparency = 1
 MinimisedBox.BorderSizePixel = 0
-MinimisedBox.Text = "DORY HUB"
-MinimisedBox.TextColor3 = Color3.fromRGB(240, 200, 80)
-MinimisedBox.TextSize = 10
-MinimisedBox.Font = Enum.Font.Arcade
+MinimisedBox.Image = FinalImageAsset
+MinimisedBox.ScaleType = Enum.ScaleType.Fit
 MinimisedBox.Active = true
 MinimisedBox.Draggable = true
 MinimisedBox.Visible = false
 MinimisedBox.ZIndex = 50
 MinimisedBox.Parent = ScreenGui
-Instance.new("UICorner", MinimisedBox).CornerRadius = UDim.new(0, 8)
+Instance.new("UICorner", MinimisedBox).CornerRadius = UDim.new(0, 12)
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
@@ -77,10 +103,20 @@ TopBar.BorderSizePixel = 0
 TopBar.ZIndex = 2
 TopBar.Parent = MainFrame
 
+local LogoImg = Instance.new("ImageLabel")
+LogoImg.Size = UDim2.new(0, 24, 0, 24)
+LogoImg.Position = UDim2.new(0, 10, 0.5, -12)
+LogoImg.BackgroundTransparency = 1
+LogoImg.Image = FinalImageAsset
+LogoImg.ScaleType = Enum.ScaleType.Fit
+LogoImg.ZIndex = 2
+LogoImg.Parent = TopBar
+Instance.new("UICorner", LogoImg).CornerRadius = UDim.new(0, 6)
+
 local TitleLabel = Instance.new("TextLabel")
 TitleLabel.Name = "TitleLabel"
 TitleLabel.Size = UDim2.new(0, 220, 1, 0)
-TitleLabel.Position = UDim2.new(0, 12, 0, 0)
+TitleLabel.Position = UDim2.new(0, 40, 0, 0)
 TitleLabel.BackgroundTransparency = 1
 TitleLabel.BorderSizePixel = 0
 TitleLabel.Text = "DORY HUB <font color=\"rgb(130,130,140)\">MOBILE PRO</font>"
@@ -405,7 +441,7 @@ local function IsInsideAnyPlotOrBase(obj)
     local parent = obj.Parent
     while parent and parent ~= Workspace do
         local nameLower = string.lower(parent.Name)
-        if string.find(nameLower, "plot") or string.find(nameLower, "base") or string.find(nameLower, "house") or string.find(nameLower, "home") or string.find(nameLower, "owner") or string.find(nameLower, "pen") or string.find(nameLower, "barn") or string.find(nameLower, "coop") then
+        if string.find(nameLower, "plot") or string.find(nameLower, "base") or string.find(nameLower, "house") or string.find(nameLower, "home") or string.find(nameLower, "owner") or string.find(nameLower, "ไร่ของ") or string.find(nameLower, "pen") or string.find(nameLower, "barn") or string.find(nameLower, "coop") then
             return true
         end
         parent = parent.Parent
@@ -768,10 +804,14 @@ local function OpenUI()
     isAnimating = true
     isOpen = true
     MinimisedBox.Visible = false
-    MainFrame.Position = UDim2.new(0.5, -240, 0.5, -145)
-    MainFrame.Size = UDim2.new(0, 480, 0, 290)
+    MainFrame.Position = MinimisedBox.Position
+    MainFrame.Size = MinimisedBox.Size
     MainFrame.BackgroundTransparency = 0.05
     MainFrame.Visible = true
+    
+    local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+    TweenService:Create(MainFrame, tweenInfo, {Position = UDim2.new(0.5, -240, 0.5, -145), Size = UDim2.new(0, 480, 0, 290)}):Play()
+    task.wait(0.3)
     isAnimating = false
 end
 
@@ -779,6 +819,10 @@ local function CloseUI()
     if isAnimating or not isOpen then return end
     isAnimating = true
     isOpen = false
+    
+    local tweenInfo = TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+    TweenService:Create(MainFrame, tweenInfo, {Position = MinimisedBox.Position, Size = MinimisedBox.Size, BackgroundTransparency = 1}):Play()
+    task.wait(0.25)
     MainFrame.Visible = false
     MinimisedBox.Visible = true
     isAnimating = false
@@ -789,10 +833,16 @@ MinimizeBtn.MouseButton1Click:Connect(CloseUI)
 CloseBtn.MouseButton1Click:Connect(function() ScreenGui:Destroy() end)
 
 task.spawn(function()
-    task.wait(0.4)
-    local fadeTween = TweenService:Create(LoadingFrame, TweenInfo.new(0.3), {BackgroundTransparency = 1})
-    local fadeText = TweenService:Create(LoadingText, TweenInfo.new(0.3), {TextTransparency = 1})
+    task.wait(0.2)
+    TweenService:Create(LoadingLogo, TweenInfo.new(0.6, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {ImageTransparency = 0}):Play()
+    TweenService:Create(LoadingText, TweenInfo.new(0.6, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
+    task.wait(1.5)
+    
+    local fadeTween = TweenService:Create(LoadingFrame, TweenInfo.new(0.4), {BackgroundTransparency = 1})
+    local fadeLogo = TweenService:Create(LoadingLogo, TweenInfo.new(0.4), {ImageTransparency = 1})
+    local fadeText = TweenService:Create(LoadingText, TweenInfo.new(0.4), {TextTransparency = 1})
     fadeTween:Play()
+    fadeLogo:Play()
     fadeText:Play()
     fadeText.Completed:Wait()
     LoadingFrame:Destroy()
