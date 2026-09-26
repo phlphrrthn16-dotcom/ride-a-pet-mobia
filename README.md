@@ -10,76 +10,50 @@ local HttpService = game:GetService("HttpService")
 local LocalPlayer = Players.LocalPlayer
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "DoryHubMobileProFixed"
+ScreenGui.Name = "DoryHubMobileProFixedV2"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = CoreGui
 
-local ImageAssetId = "dory_logo_gemini_nobg.png"
-local DiscordImageAssetId = "discord_logo_nobg.png"
-
-local function GetImageAsset(url, fileId)
-    if writefile and isfile and not isfile(fileId) then
-        pcall(function()
-            writefile(fileId, game:HttpGet(url))
-        end)
-    end
-    if getcustomasset and isfile and isfile(fileId) then
-        return getcustomasset(fileId)
-    end
-    return url
-end
-
-local ImageUrl = "https://media.discordapp.net/attachments/1551215135903715458/1551959472048443443/Gemini_Generated_Image_o315zxo315zxo315-removebg-preview.png?ex=6ab3de64&is=6ab28ce4&hm=cc3d4e08ab6ddbdc52a26ea1bde954a38117cb5d9618504f2da7c4bd65b580f8&=&format=webp&quality=lossless"
-local DiscordUrl = "https://media.discordapp.net/attachments/1551215135903715458/1553319984116146327/2026-09-26_151731-removebg-preview.png?ex=6ab8d177&is=6ab77ff7&hm=ff261c21e43c59ce72117838d44eac6061166b6571257df45b45becd57270c65&=&format=webp&quality=lossless"
-
-local FinalImageAsset = GetImageAsset(ImageUrl, ImageAssetId)
-local FinalDiscordAsset = GetImageAsset(DiscordUrl, DiscordImageAssetId)
+local ImageUrl = "https://i.imgur.com/3YQ5X48.png"
+local DiscordUrl = "https://i.imgur.com/Z4X9Q12.png"
 
 local LoadingFrame = Instance.new("Frame")
 LoadingFrame.Name = "LoadingFrame"
 LoadingFrame.Size = UDim2.new(1, 0, 1, 0)
-LoadingFrame.BackgroundTransparency = 1
+LoadingFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 12)
 LoadingFrame.BorderSizePixel = 0
 LoadingFrame.ZIndex = 100
 LoadingFrame.Parent = ScreenGui
 
-local LoadingLogo = Instance.new("ImageLabel")
-LoadingLogo.Name = "LoadingLogo"
-LoadingLogo.Size = UDim2.new(0, 220, 0, 110)
-LoadingLogo.Position = UDim2.new(0.5, -110, 0.4, -55)
-LoadingLogo.BackgroundTransparency = 1
-LoadingLogo.BorderSizePixel = 0
-LoadingLogo.Image = FinalImageAsset
-LoadingLogo.ScaleType = Enum.ScaleType.Fit
-LoadingLogo.ZIndex = 101
-LoadingLogo.Parent = LoadingFrame
-
 local LoadingText = Instance.new("TextLabel")
 LoadingText.Name = "LoadingText"
-LoadingText.Size = UDim2.new(0, 250, 0, 30)
-LoadingText.Position = UDim2.new(0.5, -125, 0.4, 65)
+LoadingText.Size = UDim2.new(0, 300, 0, 40)
+LoadingText.Position = UDim2.new(0.5, -150, 0.45, -20)
 LoadingText.BackgroundTransparency = 1
 LoadingText.BorderSizePixel = 0
-LoadingText.Text = "LOADING MOBILE DORY HUB..."
+LoadingText.Text = "DORY HUB MOBILE PRO"
 LoadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
-LoadingText.TextSize = 11
+LoadingText.TextSize = 12
 LoadingText.Font = Enum.Font.Arcade
 LoadingText.ZIndex = 101
 LoadingText.Parent = LoadingFrame
 
-local MinimisedBox = Instance.new("ImageButton")
+local MinimisedBox = Instance.new("TextButton")
 MinimisedBox.Name = "MinimisedBox"
-MinimisedBox.Size = UDim2.new(0, 110, 0, 55)
-MinimisedBox.Position = UDim2.new(0.5, -55, 0.02, 0)
-MinimisedBox.BackgroundTransparency = 1
+MinimisedBox.Size = UDim2.new(0, 100, 0, 40)
+MinimisedBox.Position = UDim2.new(0.5, -50, 0.02, 0)
+MinimisedBox.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
 MinimisedBox.BorderSizePixel = 0
-MinimisedBox.Image = FinalImageAsset
-MinimisedBox.ScaleType = Enum.ScaleType.Fit
+MinimisedBox.Text = "DORY HUB"
+MinimisedBox.TextColor3 = Color3.fromRGB(240, 200, 80)
+MinimisedBox.TextSize = 10
+MinimisedBox.Font = Enum.Font.Arcade
 MinimisedBox.Active = true
 MinimisedBox.Draggable = true
 MinimisedBox.Visible = false
 MinimisedBox.ZIndex = 50
 MinimisedBox.Parent = ScreenGui
+Instance.new("UICorner", MinimisedBox).CornerRadius = UDim.new(0, 8)
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
@@ -93,10 +67,7 @@ MainFrame.Draggable = true
 MainFrame.Visible = false
 MainFrame.ZIndex = 1
 MainFrame.Parent = ScreenGui
-
-local MainCorner = Instance.new("UICorner")
-MainCorner.CornerRadius = UDim.new(0, 10)
-MainCorner.Parent = MainFrame
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
 
 local TopBar = Instance.new("Frame")
 TopBar.Name = "TopBar"
@@ -106,19 +77,10 @@ TopBar.BorderSizePixel = 0
 TopBar.ZIndex = 2
 TopBar.Parent = MainFrame
 
-local LogoImg = Instance.new("ImageLabel")
-LogoImg.Size = UDim2.new(0, 20, 0, 20)
-LogoImg.Position = UDim2.new(0, 10, 0.5, -10)
-LogoImg.BackgroundTransparency = 1
-LogoImg.Image = FinalImageAsset
-LogoImg.ScaleType = Enum.ScaleType.Fit
-LogoImg.ZIndex = 2
-LogoImg.Parent = TopBar
-
 local TitleLabel = Instance.new("TextLabel")
 TitleLabel.Name = "TitleLabel"
 TitleLabel.Size = UDim2.new(0, 220, 1, 0)
-TitleLabel.Position = UDim2.new(0, 35, 0, 0)
+TitleLabel.Position = UDim2.new(0, 12, 0, 0)
 TitleLabel.BackgroundTransparency = 1
 TitleLabel.BorderSizePixel = 0
 TitleLabel.Text = "DORY HUB <font color=\"rgb(130,130,140)\">MOBILE PRO</font>"
@@ -139,25 +101,9 @@ ControlFrame.BorderSizePixel = 0
 ControlFrame.ZIndex = 2
 ControlFrame.Parent = TopBar
 
-local DiscordBtn = Instance.new("ImageButton")
-DiscordBtn.Name = "DiscordBtn"
-DiscordBtn.Size = UDim2.new(0, 22, 0, 22)
-DiscordBtn.Position = UDim2.new(0, 5, 0.5, -11)
-DiscordBtn.BackgroundTransparency = 1
-DiscordBtn.Image = FinalDiscordAsset
-DiscordBtn.ScaleType = Enum.ScaleType.Fit
-DiscordBtn.ZIndex = 2
-DiscordBtn.Parent = ControlFrame
-
-DiscordBtn.MouseButton1Click:Connect(function()
-    if setclipboard then
-        setclipboard("https://discord.gg/Wnk2NCw4EN")
-    end
-end)
-
 local PingLabel = Instance.new("TextLabel")
 PingLabel.Size = UDim2.new(0, 55, 1, 0)
-PingLabel.Position = UDim2.new(0, 30, 0, 0)
+PingLabel.Position = UDim2.new(0, 10, 0, 0)
 PingLabel.BackgroundTransparency = 1
 PingLabel.Text = "0MS"
 PingLabel.TextColor3 = Color3.fromRGB(130, 130, 140)
@@ -249,10 +195,7 @@ local function CreateTab(name, isDefault)
     TabBtn.TextXAlignment = Enum.TextXAlignment.Left
     TabBtn.ZIndex = 2
     TabBtn.Parent = Sidebar
-
-    local TB_Corner = Instance.new("UICorner")
-    TB_Corner.CornerRadius = UDim.new(0, 6)
-    TB_Corner.Parent = TabBtn
+    Instance.new("UICorner", TabBtn).CornerRadius = UDim.new(0, 6)
 
     local TabPage = Instance.new("ScrollingFrame")
     TabPage.Size = UDim2.new(1, 0, 1, 0)
@@ -295,7 +238,6 @@ local HomeTab = CreateTab("Home", false)
 
 local HomeCenterContainer = Instance.new("Frame")
 HomeCenterContainer.Size = UDim2.new(1, 0, 1, 0)
-HomeCenterContainer.Position = UDim2.new(0, 0, 0, 0)
 HomeCenterContainer.BackgroundColor3 = Color3.fromRGB(20, 20, 24)
 HomeCenterContainer.BackgroundTransparency = 0.5
 HomeCenterContainer.BorderSizePixel = 0
@@ -315,81 +257,10 @@ ProfileNameLbl.TextXAlignment = Enum.TextXAlignment.Left
 ProfileNameLbl.ZIndex = 2
 ProfileNameLbl.Parent = HomeCenterContainer
 
-local ExecutorLbl = Instance.new("TextLabel")
-ExecutorLbl.Size = UDim2.new(1, -10, 0, 24)
-ExecutorLbl.Position = UDim2.new(0, 5, 0, 38)
-ExecutorLbl.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
-ExecutorLbl.BackgroundTransparency = 0.3
-ExecutorLbl.BorderSizePixel = 0
-ExecutorLbl.Text = " EXECUTOR: " .. (identifyexecutor and identifyexecutor() or "UNKNOWN")
-ExecutorLbl.TextColor3 = Color3.fromRGB(100, 200, 255)
-ExecutorLbl.TextSize = 9
-ExecutorLbl.Font = Enum.Font.Arcade
-ExecutorLbl.TextXAlignment = Enum.TextXAlignment.Left
-ExecutorLbl.ZIndex = 2
-ExecutorLbl.Parent = HomeCenterContainer
-Instance.new("UICorner", ExecutorLbl).CornerRadius = UDim.new(0, 6)
-
-local DeviceLbl = Instance.new("TextLabel")
-DeviceLbl.Size = UDim2.new(1, -10, 0, 24)
-DeviceLbl.Position = UDim2.new(0, 5, 0, 68)
-DeviceLbl.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
-DeviceLbl.BackgroundTransparency = 0.3
-DeviceLbl.BorderSizePixel = 0
-DeviceLbl.Text = " PLATFORM: MOBILE / TOUCH"
-DeviceLbl.TextColor3 = Color3.fromRGB(240, 200, 80)
-DeviceLbl.TextSize = 9
-DeviceLbl.Font = Enum.Font.Arcade
-DeviceLbl.TextXAlignment = Enum.TextXAlignment.Left
-DeviceLbl.ZIndex = 2
-DeviceLbl.Parent = HomeCenterContainer
-Instance.new("UICorner", DeviceLbl).CornerRadius = UDim.new(0, 6)
-
-local GameInfoLbl = Instance.new("TextLabel")
-GameInfoLbl.Size = UDim2.new(1, -10, 0, 24)
-GameInfoLbl.Position = UDim2.new(0, 5, 0, 98)
-GameInfoLbl.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
-GameInfoLbl.BackgroundTransparency = 0.3
-GameInfoLbl.BorderSizePixel = 0
-GameInfoLbl.Text = " GAME: RIDE A PET"
-GameInfoLbl.TextColor3 = Color3.fromRGB(180, 100, 255)
-GameInfoLbl.TextSize = 9
-GameInfoLbl.Font = Enum.Font.Arcade
-GameInfoLbl.TextXAlignment = Enum.TextXAlignment.Left
-GameInfoLbl.ZIndex = 2
-GameInfoLbl.Parent = HomeCenterContainer
-Instance.new("UICorner", GameInfoLbl).CornerRadius = UDim.new(0, 6)
-
-local ExtraInfoLbl = Instance.new("TextLabel")
-ExtraInfoLbl.Size = UDim2.new(1, -10, 0, 24)
-ExtraInfoLbl.Position = UDim2.new(0, 5, 0, 128)
-ExtraInfoLbl.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
-ExtraInfoLbl.BackgroundTransparency = 0.3
-ExtraInfoLbl.BorderSizePixel = 0
-ExtraInfoLbl.Text = " PING: 0 MS"
-ExtraInfoLbl.TextColor3 = Color3.fromRGB(80, 200, 120)
-ExtraInfoLbl.TextSize = 9
-ExtraInfoLbl.Font = Enum.Font.Arcade
-ExtraInfoLbl.TextXAlignment = Enum.TextXAlignment.Left
-ExtraInfoLbl.ZIndex = 2
-ExtraInfoLbl.Parent = HomeCenterContainer
-Instance.new("UICorner", ExtraInfoLbl).CornerRadius = UDim.new(0, 6)
-
-task.spawn(function()
-    while true do
-        pcall(function()
-            local ping = math.floor(Stats.Network.ServerStatsItem["Data Ping"]:GetValue())
-            ExtraInfoLbl.Text = " PING: " .. ping .. " MS"
-        end)
-        task.wait(1)
-    end
-end)
-
 local MainTab = CreateTab("Main", true)
 
 local StealingSection = Instance.new("Frame")
 StealingSection.Size = UDim2.new(1, 0, 0, 235)
-StealingSection.Position = UDim2.new(0, 0, 0, 0)
 StealingSection.BackgroundColor3 = Color3.fromRGB(20, 20, 24)
 StealingSection.BackgroundTransparency = 0.6
 StealingSection.BorderSizePixel = 0
@@ -534,7 +405,7 @@ local function IsInsideAnyPlotOrBase(obj)
     local parent = obj.Parent
     while parent and parent ~= Workspace do
         local nameLower = string.lower(parent.Name)
-        if string.find(nameLower, "plot") or string.find(nameLower, "base") or string.find(nameLower, "house") or string.find(nameLower, "home") or string.find(nameLower, "owner") or string.find(nameLower, "ไร่ของ") or string.find(nameLower, "pen") or string.find(nameLower, "barn") or string.find(nameLower, "coop") then
+        if string.find(nameLower, "plot") or string.find(nameLower, "base") or string.find(nameLower, "house") or string.find(nameLower, "home") or string.find(nameLower, "owner") or string.find(nameLower, "pen") or string.find(nameLower, "barn") or string.find(nameLower, "coop") then
             return true
         end
         parent = parent.Parent
@@ -676,21 +547,19 @@ task.spawn(function()
                             local initialPos = hrp.CFrame
                             
                             hrp.CFrame = targetPart.CFrame + Vector3.new(0, 2, 0)
-                            task.wait(0.15)
+                            task.wait(0.2)
                             
-                            AddLog("Interacting...")
-                            local interactionAttempt = 0
-                            while interactionAttempt < 4 and not IsEggCollected(data.model) and isStealingActive do
+                            AddLog("Holding to steal...")
+                            local holdStartTime = tick()
+                            while (tick() - holdStartTime) < 3.5 and not IsEggCollected(data.model) and isStealingActive do
                                 VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
                                 task.wait(0.1)
-                                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
-                                task.wait(0.25)
-                                interactionAttempt = interactionAttempt + 1
                             end
+                            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
                             
                             local stolenConfirmed = false
                             local checkStart = tick()
-                            while (tick() - checkStart) < 1.5 do
+                            while (tick() - checkStart) < 1.0 do
                                 if IsEggCollected(data.model) then
                                     stolenConfirmed = true
                                     break
@@ -728,8 +597,7 @@ end)
 local MiscTab = CreateTab("Misc", false)
 
 local MiscSection = Instance.new("Frame")
-MiscSection.Size = UDim2.new(1, 0, 0, 160)
-MiscSection.Position = UDim2.new(0, 0, 0, 0)
+MiscSection.Size = UDim2.new(1, 0, 0, 200)
 MiscSection.BackgroundColor3 = Color3.fromRGB(20, 20, 24)
 MiscSection.BackgroundTransparency = 0.6
 MiscSection.BorderSizePixel = 0
@@ -741,7 +609,7 @@ local MS_Title = Instance.new("TextLabel")
 MS_Title.Size = UDim2.new(1, -10, 0, 20)
 MS_Title.Position = UDim2.new(0, 6, 0, 4)
 MS_Title.BackgroundTransparency = 1
-MS_Title.Text = "MOBILE UTILITIES"
+MS_Title.Text = "MOBILE UTILITIES & SERVER HOP"
 MS_Title.TextColor3 = Color3.fromRGB(140, 140, 150)
 MS_Title.TextSize = 9
 MS_Title.Font = Enum.Font.Arcade
@@ -750,7 +618,7 @@ MS_Title.ZIndex = 2
 MS_Title.Parent = MiscSection
 
 local RejoinBtn = Instance.new("TextButton")
-RejoinBtn.Size = UDim2.new(1, -12, 0, 30)
+RejoinBtn.Size = UDim2.new(1, -12, 0, 28)
 RejoinBtn.Position = UDim2.new(0, 6, 0, 30)
 RejoinBtn.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
 RejoinBtn.BorderSizePixel = 0
@@ -767,8 +635,8 @@ RejoinBtn.MouseButton1Click:Connect(function()
 end)
 
 local LowServerBtn = Instance.new("TextButton")
-LowServerBtn.Size = UDim2.new(1, -12, 0, 30)
-LowServerBtn.Position = UDim2.new(0, 6, 0, 68)
+LowServerBtn.Size = UDim2.new(1, -12, 0, 28)
+LowServerBtn.Position = UDim2.new(0, 6, 0, 64)
 LowServerBtn.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
 LowServerBtn.BorderSizePixel = 0
 LowServerBtn.Text = "REHOP LOW SERVER"
@@ -781,7 +649,7 @@ Instance.new("UICorner", LowServerBtn).CornerRadius = UDim.new(0, 6)
 
 LowServerBtn.MouseButton1Click:Connect(function()
     pcall(function()
-        LowServerBtn.Text = "SEARCHING..."
+        LowServerBtn.Text = "SEARCHING LOW..."
         local servers = {}
         local cursor = ""
         while true do
@@ -821,6 +689,77 @@ LowServerBtn.MouseButton1Click:Connect(function()
     end)
 end)
 
+local BestPingBtn = Instance.new("TextButton")
+BestPingBtn.Size = UDim2.new(1, -12, 0, 28)
+BestPingBtn.Position = UDim2.new(0, 6, 0, 98)
+BestPingBtn.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
+BestPingBtn.BorderSizePixel = 0
+BestPingBtn.Text = "FIND BEST LOW PING"
+BestPingBtn.TextColor3 = Color3.fromRGB(80, 200, 120)
+BestPingBtn.TextSize = 9
+BestPingBtn.Font = Enum.Font.Arcade
+BestPingBtn.ZIndex = 2
+BestPingBtn.Parent = MiscSection
+Instance.new("UICorner", BestPingBtn).CornerRadius = UDim.new(0, 6)
+
+BestPingBtn.MouseButton1Click:Connect(function()
+    pcall(function()
+        BestPingBtn.Text = "SCANNING PING..."
+        local servers = {}
+        local cursor = ""
+        while true do
+            local url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+            if cursor ~= "" then
+                url = url .. "&cursor=" .. cursor
+            end
+            local success, response = pcall(function()
+                return HttpService:JSONDecode(game:HttpGet(url))
+            end)
+            if success and response and response.data then
+                for _, s in ipairs(response.data) do
+                    if s.id ~= game.JobId and s.playing and s.maxPlayers and s.playing < s.maxPlayers then
+                        table.insert(servers, s)
+                    end
+                end
+                if response.nextPageCursor and #servers < 30 then
+                    cursor = response.nextPageCursor
+                else
+                    break
+                end
+            else
+                break
+            end
+            task.wait(0.1)
+        end
+        
+        if #servers > 0 then
+            table.sort(servers, function(a, b)
+                local pingA = a.ping or 999
+                local pingB = b.ping or 999
+                if pingA == pingB then
+                    return a.playing < b.playing
+                end
+                return pingA < pingB
+            end)
+            
+            local bestServer = servers[1]
+            if bestServer then
+                BestPingBtn.Text = "JOINING LOW PING..."
+                TeleportService:TeleportToPlaceInstance(game.PlaceId, bestServer.id, LocalPlayer)
+                return
+            end
+        end
+        
+        BestPingBtn.Text = "HOPPING ALTERNATE..."
+        task.wait(1)
+        if #servers > 0 then
+            TeleportService:TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)].id, LocalPlayer)
+        else
+            BestPingBtn.Text = "FIND BEST LOW PING"
+        end
+    end)
+end)
+
 local isOpen = false
 local isAnimating = false
 
@@ -829,14 +768,10 @@ local function OpenUI()
     isAnimating = true
     isOpen = true
     MinimisedBox.Visible = false
-    MainFrame.Position = MinimisedBox.Position
-    MainFrame.Size = MinimisedBox.Size
+    MainFrame.Position = UDim2.new(0.5, -240, 0.5, -145)
+    MainFrame.Size = UDim2.new(0, 480, 0, 290)
     MainFrame.BackgroundTransparency = 0.05
     MainFrame.Visible = true
-    
-    local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
-    TweenService:Create(MainFrame, tweenInfo, {Position = UDim2.new(0.5, -240, 0.5, -145), Size = UDim2.new(0, 480, 0, 290)}):Play()
-    task.wait(0.3)
     isAnimating = false
 end
 
@@ -844,10 +779,6 @@ local function CloseUI()
     if isAnimating or not isOpen then return end
     isAnimating = true
     isOpen = false
-    
-    local tweenInfo = TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
-    TweenService:Create(MainFrame, tweenInfo, {Position = MinimisedBox.Position, Size = MinimisedBox.Size, BackgroundTransparency = 1}):Play()
-    task.wait(0.25)
     MainFrame.Visible = false
     MinimisedBox.Visible = true
     isAnimating = false
@@ -858,20 +789,10 @@ MinimizeBtn.MouseButton1Click:Connect(CloseUI)
 CloseBtn.MouseButton1Click:Connect(function() ScreenGui:Destroy() end)
 
 task.spawn(function()
-    task.wait(0.5)
-    for i = 1, 2 do
-        LoadingText.Text = "LOADING MOBILE HUB."
-        task.wait(0.3)
-        LoadingText.Text = "LOADING MOBILE HUB.."
-        task.wait(0.3)
-        LoadingText.Text = "LOADING MOBILE HUB..."
-        task.wait(0.3)
-    end
-    local fadeTween = TweenService:Create(LoadingFrame, TweenInfo.new(0.4), {BackgroundTransparency = 1})
-    local fadeLogo = TweenService:Create(LoadingLogo, TweenInfo.new(0.4), {ImageTransparency = 1})
-    local fadeText = TweenService:Create(LoadingText, TweenInfo.new(0.4), {TextTransparency = 1})
+    task.wait(0.4)
+    local fadeTween = TweenService:Create(LoadingFrame, TweenInfo.new(0.3), {BackgroundTransparency = 1})
+    local fadeText = TweenService:Create(LoadingText, TweenInfo.new(0.3), {TextTransparency = 1})
     fadeTween:Play()
-    fadeLogo:Play()
     fadeText:Play()
     fadeText.Completed:Wait()
     LoadingFrame:Destroy()
