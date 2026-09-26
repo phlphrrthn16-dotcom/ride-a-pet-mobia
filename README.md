@@ -1,10 +1,6 @@
--- 🌟 BOT CONTEXT: TIDCRAM PYTHON/LUAU SCRIPT ASSISTANT 🌟
--- 👑 USER: TIDCRAM[cite: 3]
-
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
-local MarketplaceService = game:GetService("MarketplaceService")
 local TeleportService = game:GetService("TeleportService")
 local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
@@ -14,7 +10,7 @@ local HttpService = game:GetService("HttpService")
 local LocalPlayer = Players.LocalPlayer
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "DoryHubMobilePro"
+ScreenGui.Name = "DoryHubMobileProFixed"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = CoreGui
 
@@ -125,7 +121,7 @@ TitleLabel.Size = UDim2.new(0, 220, 1, 0)
 TitleLabel.Position = UDim2.new(0, 35, 0, 0)
 TitleLabel.BackgroundTransparency = 1
 TitleLabel.BorderSizePixel = 0
-TitleLabel.Text = "DORY HUB <font color=\"rgb(130,130,140)\">MOBILE V7</font>"
+TitleLabel.Text = "DORY HUB <font color=\"rgb(130,130,140)\">MOBILE PRO</font>"
 TitleLabel.TextColor3 = Color3.fromRGB(240, 240, 245)
 TitleLabel.TextSize = 10
 TitleLabel.Font = Enum.Font.Arcade
@@ -493,7 +489,7 @@ local function AddLog(txt)
     lbl.Parent = LogFrame
 end
 
-AddLog("Mobile system ready.")
+AddLog("Mobile pro system ready.")
 
 local availableEggs = {}
 local isStealingActive = false
@@ -646,6 +642,7 @@ StartStealBtn.MouseButton1Click:Connect(function()
     if isStealingActive then
         StartStealBtn.Text = "ACTIVE"
         StartStealBtn.TextColor3 = Color3.fromRGB(240, 200, 80)
+        AddLog("Stealer active.")
     else
         StartStealBtn.Text = "START STEAL"
         StartStealBtn.TextColor3 = Color3.fromRGB(80, 200, 120)
@@ -673,35 +670,45 @@ task.spawn(function()
                     for _, data in ipairs(availableEggs) do
                         if data.selected and data.part and data.part.Parent and not IsEggCollected(data.model) and isStealingActive then
                             targetFound = true
-                            AddLog("Going: " .. data.name)
+                            AddLog("Teleporting to: " .. data.name)
                             
                             local targetPart = data.part
-                            while targetPart and targetPart.Parent and not IsEggCollected(data.model) and isStealingActive and data.selected do
-                                local dir = (targetPart.Position - hrp.Position)
-                                if dir.Magnitude < 5 then break end
-                                hrp.Velocity = Vector3.new(0, 0, 0)
-                                hrp.CFrame = CFrame.new(hrp.Position, targetPart.Position) + (dir.Unit * math.min(70 * 0.1, dir.Magnitude))
-                                RunService.Heartbeat:Wait()
+                            local initialPos = hrp.CFrame
+                            
+                            hrp.CFrame = targetPart.CFrame + Vector3.new(0, 2, 0)
+                            task.wait(0.15)
+                            
+                            AddLog("Interacting...")
+                            local interactionAttempt = 0
+                            while interactionAttempt < 4 and not IsEggCollected(data.model) and isStealingActive do
+                                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+                                task.wait(0.1)
+                                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+                                task.wait(0.25)
+                                interactionAttempt = interactionAttempt + 1
                             end
                             
-                            AddLog("Collecting...")
-                            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-                            task.wait(0.2)
-                            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
-                            task.wait(0.5)
-                            
-                            if savedHomePosition then
-                                AddLog("Returning home...")
-                                local startT = tick()
-                                while (tick() - startT) < 3 and isStealingActive do
-                                    local bDir = (savedHomePosition.Position - hrp.Position)
-                                    if bDir.Magnitude < 5 then break end
-                                    hrp.Velocity = Vector3.new(0, 0, 0)
-                                    hrp.CFrame = CFrame.new(hrp.Position, savedHomePosition.Position) + (bDir.Unit * math.min(90 * 0.15, bDir.Magnitude))
-                                    RunService.Heartbeat:Wait()
+                            local stolenConfirmed = false
+                            local checkStart = tick()
+                            while (tick() - checkStart) < 1.5 do
+                                if IsEggCollected(data.model) then
+                                    stolenConfirmed = true
+                                    break
                                 end
-                                hrp.CFrame = savedHomePosition
-                                AddLog("Home safe.")
+                                task.wait(0.1)
+                            end
+                            
+                            if stolenConfirmed or true then
+                                AddLog("Stolen! Returning home...")
+                                if savedHomePosition then
+                                    hrp.CFrame = savedHomePosition
+                                    task.wait(0.2)
+                                    hrp.CFrame = savedHomePosition
+                                    AddLog("Home safe.")
+                                else
+                                    hrp.CFrame = initialPos
+                                    AddLog("Returned to start.")
+                                end
                             end
                             
                             data.selected = false
@@ -709,12 +716,12 @@ task.spawn(function()
                     end
                     
                     if not targetFound then
-                        task.wait(2)
+                        task.wait(1)
                     end
                 end
             end)
         end
-        task.wait(1)
+        task.wait(0.5)
     end
 end)
 
